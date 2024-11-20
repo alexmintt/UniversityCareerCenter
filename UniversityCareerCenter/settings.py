@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'students',
     'django_filters',
     'rest_framework',
+    'import_export'
 ]
 
 

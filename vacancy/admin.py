@@ -1,8 +1,12 @@
 from django.contrib import admin
+from import_export.admin import ExportMixin
 
 from vacancy.models import Vacancy
+from vacancy.resource import VacancyResource
 
-class VacancyAdmin(admin.ModelAdmin):
+
+class VacancyAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = VacancyResource
     list_display = ('title', 'company', 'salary', 'created_at', 'id')
     list_filter = ('company', 'created_at')
     search_fields = ('title', 'company')
