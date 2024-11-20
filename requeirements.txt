@@ -2,5 +2,5 @@ django==4.2
 djangorestframework==3.14.0
 django-filter==23.2
 drf-yasg==1.21.5  # Если потребуется документация
-django-simple-history==2.16.0
+django-simple-history==3.7.0
 django-import-export==3.2.0
