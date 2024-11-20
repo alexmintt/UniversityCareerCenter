@@ -9,6 +9,11 @@ class Application(models.Model):
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     status = models.CharField(max_length=20,
                               choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')])
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def approve(self):
+        self.status = 'approved'
+        self.save()
 
     class Meta:
         verbose_name_plural = "Заявки"

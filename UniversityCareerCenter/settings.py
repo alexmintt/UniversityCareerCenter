@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'application',
     'vacancy',
     'students',
+    'django_filters',
     'rest_framework',
 ]
 
