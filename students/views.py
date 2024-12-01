@@ -1,27 +1,29 @@
+from datetime import datetime
+
 from django.db.models import Q
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from students.models import Student
-from students.serializers import StudentSerializer
+from students.models import Student, Faculty
+from students.serializers import StudentSerializer, FacultySerializer
 
 
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['course']
+    filterset_fields = ['faculty']
     search_fields = ['name', 'faculty', 'resume']
 
-    @action(detail=False, methods=['GET'], url_path='by-course') # GET http://localhost:8000/api/students/by-course?course=1
-    def get_by_course(self, request):
-        course = request.query_params.get('course')
+    @action(detail=False, methods=['GET'], url_path='by-faculty')
+    def get_by_faculty(self, request):
+        faculty = request.query_params.get('faculty')
 
-        if course is None:
+        if faculty is None:
             return Response({'error': 'Parameter course is required'}, status=400)
-        students = Student.objects.filter(course=course)
+        students = Student.objects.filter(faculty=faculty)
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data)
 
@@ -33,7 +35,15 @@ class StudentViewSet(viewsets.ModelViewSet):
         return Response({'status': 'success'})
 
     @action(detail=False, methods=['GET'])
-    def get_bachelors(self, request):
-        students = Student.objects.filter((Q(course__gte=1) | Q(course__lte=4)) & ~Q(course__gte=5))
+    def get_graduated(self, request):
+        students = Student.objects.filter(graduation_year__lt=datetime.now().year)
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data)
+
+
+class FacultyViewSet(viewsets.ModelViewSet):
+    queryset = Faculty.objects.all()
+    serializer_class = FacultySerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['name']
+    search_fields = ['name']

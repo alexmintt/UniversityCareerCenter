@@ -1,0 +1,106 @@
+[
+    {
+        "model": "students.faculty",
+        "pk": 1,
+        "fields": {
+            "name": "Faculty of Engineering",
+            "created_at": "2024-01-01T10:00:00Z"
+        }
+    },
+    {
+        "model": "students.faculty",
+        "pk": 2,
+        "fields": {
+            "name": "Faculty of Science",
+            "created_at": "2024-01-02T10:00:00Z"
+        }
+    },
+    {
+        "model": "students.student",
+        "pk": 1,
+        "fields": {
+            "name": "Alice Johnson",
+            "resume": "Experienced in software development.",
+            "created_at": "2024-01-10T12:00:00Z",
+            "enrollment_year": "2021-09-01",
+            "graduation_year": "2025-06-01",
+            "faculty_id": 1
+        }
+    },
+    {
+        "model": "students.student",
+        "pk": 2,
+        "fields": {
+            "name": "Bob Smith",
+            "resume": "Background in data science.",
+            "created_at": "2024-01-11T12:00:00Z",
+            "enrollment_year": "2020-09-01",
+            "graduation_year": "2024-06-01",
+            "faculty_id": 2
+        }
+    },
+    {
+        "model": "vacancy.company",
+        "pk": 1,
+        "fields": {
+            "name": "TechCorp",
+            "description": "Leading tech company.",
+            "address": "123 Tech Street",
+            "created_at": "2024-02-01T10:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.company",
+        "pk": 2,
+        "fields": {
+            "name": "HealthCare Inc",
+            "description": "Innovative healthcare solutions.",
+            "address": "456 Health Lane",
+            "created_at": "2024-02-02T10:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 1,
+        "fields": {
+            "title": "Software Engineer",
+            "description": "Develop and maintain software.",
+            "requirements": "Bachelor's in CS, 2+ years experience.",
+            "created_at": "2024-03-01T10:00:00Z",
+            "salary": 70000.00,
+            "company_id": 1
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 2,
+        "fields": {
+            "title": "Data Analyst",
+            "description": "Analyze data for insights.",
+            "requirements": "Bachelor's in Math, 1+ years experience.",
+            "created_at": "2024-03-02T10:00:00Z",
+            "salary": 60000.00,
+            "company_id": 2
+        }
+    },
+    {
+        "model": "application.application",
+        "pk": 1,
+        "fields": {
+            "status": "Pending",
+            "student_id": 1,
+            "vacancy_id": 1,
+            "created_at": "2024-04-01T10:00:00Z"
+        }
+    },
+    {
+        "model": "application.application",
+        "pk": 2,
+        "fields": {
+            "status": "Accepted",
+            "student_id": 2,
+            "vacancy_id": 2,
+            "created_at": "2024-04-02T10:00:00Z"
+        }
+    }
+]

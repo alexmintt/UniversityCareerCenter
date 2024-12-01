@@ -1,10 +1,11 @@
+from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from vacancy.models import Vacancy
-from vacancy.serializers import VacancySerializer
+from vacancy.models import Vacancy, Company
+from vacancy.serializers import VacancySerializer, CompanySerializer
 
 
 class VacancyViewSet(viewsets.ModelViewSet):
@@ -23,3 +24,21 @@ class VacancyViewSet(viewsets.ModelViewSet):
         vacancies = Vacancy.objects.filter(salary__gte=min_salary, salary__lte=max_salary)
         serializer = VacancySerializer(vacancies, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'], url_path='remote')
+    def find_remote_vacancies(self, request):
+
+        vacancies = Vacancy.objects.filter(
+            Q(description__icontains='Remote') | (
+                    Q(title__icontains='Developer') & ~Q(title__icontains='Intern'))
+        )
+        serializer = VacancySerializer(vacancies, many=True)
+        return Response(serializer.data)
+
+
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    search_fields = ['name', 'description', 'address']
+    filterset_fields = ['name', 'description', 'address']

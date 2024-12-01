@@ -19,12 +19,14 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from application.views import ApplicationsViewSet
-from students.views import StudentViewSet
-from vacancy.views import VacancyViewSet
+from students.views import StudentViewSet, FacultyViewSet
+from vacancy.views import VacancyViewSet, CompanyViewSet
 
 router = DefaultRouter()
 
 router.register(r'students', StudentViewSet)
+router.register(r'faculties', FacultyViewSet)
+router.register(r'companies', CompanyViewSet)
 router.register(r'applications', ApplicationsViewSet)
 router.register(r'vacancies', VacancyViewSet)
 
