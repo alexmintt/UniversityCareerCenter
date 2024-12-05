@@ -8,6 +8,7 @@ from rest_framework.response import Response
 
 from students.models import Student, Faculty
 from students.serializers import StudentSerializer, FacultySerializer
+from vacancy.serializers import VacancySerializer
 
 
 class StudentViewSet(viewsets.ModelViewSet):
@@ -33,6 +34,13 @@ class StudentViewSet(viewsets.ModelViewSet):
         student.resume = request.data.get('resume')
         student.save()
         return Response({'status': 'success'})
+
+    @action(detail=True, methods=['GET'], url_path='vacancies')
+    def get_vacancies(self, request, pk):
+        student = self.get_object()
+        vacancies = student.vacancies.all()
+        serializer = VacancySerializer(vacancies, many=True)
+        return Response(serializer.data)
 
     @action(detail=False, methods=['GET'])
     def get_graduated(self, request):

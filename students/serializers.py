@@ -7,24 +7,52 @@ from vacancy.serializers import VacancySerializer
 class FacultySerializer(serializers.ModelSerializer):
     class Meta:
         model = Faculty
-        fields = ('name', 'id')
-
+        fields = ('id', 'name')
 
     def validate_name(self, value):
-        if value in Faculty.objects.values_list('name', flat=True):
+        if Faculty.objects.filter(name=value).exists():
             raise serializers.ValidationError("Faculty already exists.")
+
+        return value
+
+    def create(self, validated_data):
+        faculty = Faculty.objects.create(**validated_data)
+        return faculty
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.save()
+        return instance
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    faculty = FacultySerializer(many=False)
-    vacancies = VacancySerializer(many=True)
+    faculty = FacultySerializer(many=False, read_only=True)
+    faculty_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Student
-        fields = '__all__'
+        fields = ('id', 'faculty_id', 'name', 'faculty', 'enrollment_year', 'graduation_year', 'resume')
 
     def validate(self, data):
-        if data['enrolled_year'] > data['graduated_year']:
+        if data['enrollment_year'] > data['graduation_year']:
             raise serializers.ValidationError("Enrolled year must be before graduated year.")
         return data
 
+    def create(self, validated_data):
+        faculty_id = validated_data.pop('faculty_id')
+        faculty = Faculty.objects.get(id=faculty_id)
+        student = Student.objects.create(faculty=faculty, **validated_data)
+        return student
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.enrollment_year = validated_data.get('enrollment_year', instance.enrollment_year)
+        instance.graduation_year = validated_data.get('graduation_year', instance.graduation_year)
+        instance.resume = validated_data.get('resume', instance.resume)
+
+        faculty_id = validated_data.pop('faculty_id', None)
+        if faculty_id:
+            faculty = Faculty.objects.get(id=faculty_id)
+            instance.faculty = faculty
+        instance.save()
+        return instance

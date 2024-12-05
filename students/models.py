@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import models
 
 from vacancy.models import Vacancy
@@ -18,6 +19,7 @@ class Faculty(models.Model):
 
 
 class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     enrollment_year = models.DateField()
     graduation_year = models.DateField()
@@ -28,7 +30,6 @@ class Student(models.Model):
 
     def is_graduated(self):
         return datetime.datetime.now().date() > self.graduation_year
-
 
     def __str__(self):
         return self.name
