@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'import_export',
     'logging_app',
+    'drf_yasg'
 ]
 
 REST_FRAMEWORK = {

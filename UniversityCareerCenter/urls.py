@@ -16,6 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
 from application.views import ApplicationsViewSet
@@ -30,9 +33,25 @@ router.register(r'companies', CompanyViewSet)
 router.register(r'applications', ApplicationsViewSet)
 router.register(r'vacancies', VacancyViewSet)
 
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="University Career Center API",
+        default_version='v1',
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@snippets.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
+
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
 
+    path("swagger/", schema_view.with_ui('swagger', cache_timeout=0)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
 ]
