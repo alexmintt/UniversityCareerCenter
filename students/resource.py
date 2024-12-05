@@ -8,11 +8,11 @@ class StudentResource(resources.ModelResource):
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'course', 'faculty', 'resume', 'created_at')
-        export_order = ('id', 'full_name', 'course', 'faculty', 'created_at')
+        fields = ('id', 'name', 'faculty', 'resume', 'created_at')
+        export_order = ('id', 'full_name', 'faculty', 'created_at')
 
     def get_export_queryset(self, queryset, request):
-        return queryset.filter(course__gte=2)
+        return queryset.filter(faculty=2)
 
     def dehydrate_full_name(self, student):
         return f"{student.name} ({student.faculty})"
