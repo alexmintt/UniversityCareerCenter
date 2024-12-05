@@ -161,5 +161,13 @@ CELERY_BEAT_SCHEDULE = {
     'save-cached-log-to-db': {
         'task': 'logging_app.tasks.save_logs_to_db',
         'schedule': crontab(minute='*/5'),
-    }
+    },
+    'send-reminder-emails': {
+        'task': 'students.tasks.send_reminder_emails',
+        'schedule': crontab(minute='*/1'),
+    },
+    'remove-rejected-applications': {
+        'task': 'application.tasks.remove_rejected_applications',
+        'schedule': crontab(minute='*/1'),
+    },
 }
