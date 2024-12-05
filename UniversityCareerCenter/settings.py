@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'students',
     'django_filters',
     'rest_framework',
-    'import_export'
+    'import_export',
+    'logging_app',
 ]
-
 
 REST_FRAMEWORK = {
 
@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'logging_app.middleware.LoggingMiddleware',
 ]
 
 ROOT_URLCONF = 'UniversityCareerCenter.urls'
@@ -132,8 +133,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mailhog'
 EMAIL_PORT = 1025
@@ -159,5 +158,8 @@ CACHES = {
 }
 
 CELERY_BEAT_SCHEDULE = {
-
+    'save-cached-log-to-db': {
+        'task': 'logging_app.tasks.save_logs_to_db',
+        'schedule': crontab(minute='*/5'),
+    }
 }

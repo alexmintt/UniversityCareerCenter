@@ -10,6 +10,7 @@ class Application(models.Model):
     status = models.CharField(max_length=20,
                               choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')])
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def approve(self):
         self.status = 'approved'
