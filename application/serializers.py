@@ -17,6 +17,11 @@ class ApplicationSerializer(serializers.ModelSerializer):
         model = Application
         fields = '__all__'
 
+    def validate_status(self, value):
+        if value not in ['approved', 'pending', 'rejected']:
+            raise serializers.ValidationError("Invalid status")
+        return value
+
     def create(self, validated_data):
         vacancy_id = validated_data.pop('vacancy_id')
         student_id = validated_data.pop('student_id')
