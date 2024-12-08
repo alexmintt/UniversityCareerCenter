@@ -1,8 +1,17 @@
 from django.contrib import admin
 from import_export.admin import ExportMixin
 
-from students.models import Student, Faculty
+from students.models import Student, Faculty, Resume
 from students.resource import StudentResource
+
+
+class ResumeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'id')
+    search_fields = ('title',)
+    readonly_fields = ('created_at',)
+    ordering = ('-created_at',)
+    list_display_links = ('title',)
+admin.site.register(Resume, ResumeAdmin)
 
 
 class FacultyAdmin(admin.ModelAdmin):
@@ -23,5 +32,7 @@ class StudentAdmin(ExportMixin, admin.ModelAdmin):
     readonly_fields = ('created_at',)
     ordering = ('-created_at',)
     list_display_links = ('name', 'faculty')
+
+
 
 admin.site.register(Student, StudentAdmin)
