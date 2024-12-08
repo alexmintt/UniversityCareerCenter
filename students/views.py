@@ -6,8 +6,8 @@ from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from students.models import Student, Faculty
-from students.serializers import StudentSerializer, FacultySerializer
+from students.models import Student, Faculty, Resume
+from students.serializers import StudentSerializer, FacultySerializer, ResumeSerializer
 from vacancy.serializers import VacancySerializer
 
 
@@ -55,3 +55,10 @@ class FacultyViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['name']
     search_fields = ['name']
+
+class ResumeViewSet(viewsets.ModelViewSet):
+    queryset = Resume.objects.all()
+    serializer_class = ResumeSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['title']
+    search_fields = ['title', 'text', 'skills']

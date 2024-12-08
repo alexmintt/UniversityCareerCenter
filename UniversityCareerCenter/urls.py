@@ -22,7 +22,7 @@ from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
 from application.views import ApplicationsViewSet
-from students.views import StudentViewSet, FacultyViewSet
+from students.views import StudentViewSet, FacultyViewSet, ResumeViewSet
 from vacancy.views import VacancyViewSet, CompanyViewSet
 
 router = DefaultRouter()
@@ -32,8 +32,7 @@ router.register(r'faculties', FacultyViewSet)
 router.register(r'companies', CompanyViewSet)
 router.register(r'applications', ApplicationsViewSet)
 router.register(r'vacancies', VacancyViewSet)
-
-
+router.register(r'resume', ResumeViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -46,7 +45,6 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
-
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),

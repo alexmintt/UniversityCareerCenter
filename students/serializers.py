@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from students.models import Student, Faculty
+from students.models import Student, Faculty, Resume
 from vacancy.serializers import VacancySerializer
 
 
@@ -25,9 +25,18 @@ class FacultySerializer(serializers.ModelSerializer):
         return instance
 
 
+class ResumeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resume
+        fields = '__all__'
+
+
 class StudentSerializer(serializers.ModelSerializer):
     faculty = FacultySerializer(many=False, read_only=True)
     faculty_id = serializers.IntegerField(write_only=True)
+
+    resume = ResumeSerializer(many=False, read_only=True)
+    resume_id = serializers.IntegerField(write_only=True)
 
     class Meta:
         model = Student
@@ -41,14 +50,22 @@ class StudentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         faculty_id = validated_data.pop('faculty_id')
         faculty = Faculty.objects.get(id=faculty_id)
-        student = Student.objects.create(faculty=faculty, **validated_data)
+
+        resume_id = validated_data.pop('resume_id')
+        resume = Resume.objects.get(id=resume_id)
+
+        student = Student.objects.create(faculty=faculty, resume=resume, **validated_data)
         return student
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.enrollment_year = validated_data.get('enrollment_year', instance.enrollment_year)
         instance.graduation_year = validated_data.get('graduation_year', instance.graduation_year)
-        instance.resume = validated_data.get('resume', instance.resume)
+
+        resume_id = validated_data.pop('resume_id', None)
+        if resume_id:
+            resume = Resume.objects.get(id=resume_id)
+            instance.resume = resume
 
         faculty_id = validated_data.pop('faculty_id', None)
         if faculty_id:
