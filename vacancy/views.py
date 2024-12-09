@@ -1,9 +1,11 @@
 from django.db.models import Q
 from django.shortcuts import render
+from django.urls import reverse
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.reverse import reverse_lazy
 
 from vacancy.models import Vacancy, Company
 from vacancy.serializers import VacancySerializer, CompanySerializer
@@ -28,13 +30,22 @@ class VacancyViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['GET'], url_path='remote')
     def find_remote_vacancies(self, request):
-
         vacancies = Vacancy.objects.filter(
             Q(description__icontains='Remote') | (
                     Q(title__icontains='Developer') & ~Q(title__icontains='Intern'))
         )
         serializer = VacancySerializer(vacancies, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'], url_path='reverse-lazy')
+    def reverse_lazy_example(self, request):
+        vacancies = Vacancy.objects.all()
+        serializer = VacancySerializer(vacancies, many=True)
+
+        reverse_lazy_url = reverse_lazy('vacancy-list', request=request)
+        reverse_url = reverse('vacancy-list')
+
+        return Response({'reverse_lazy': reverse_lazy_url, 'reverse': reverse_url, 'data': serializer.data})
 
 
 class CompanyViewSet(viewsets.ModelViewSet):

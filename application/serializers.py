@@ -29,9 +29,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
         student = Student.objects.get(id=student_id)
         vacancy = Vacancy.objects.get(id=vacancy_id)
 
-        application = Application.objects.create(**validated_data)
-        application.vacancy = vacancy
-        application.student = student
+        application = Application.objects.create(student=student, vacancy=vacancy, **validated_data)
         application.save()
         return application
 

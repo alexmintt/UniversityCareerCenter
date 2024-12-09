@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'import_export',
     'logging_app',
     'drf_yasg',
-    'social_django',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

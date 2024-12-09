@@ -9,8 +9,15 @@ class CompanySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_name(self, value):
-        if Company.objects.filter(name=value).exists():
-            raise serializers.ValidationError("Company already exists.")
+        instance = getattr(self, 'instance', None)
+        pk = getattr(instance, 'pk', None)
+
+        if pk:
+            if Company.objects.filter(name=value).exclude(pk=pk).exists():
+                raise serializers.ValidationError("Company already exists.")
+        else:
+            if Company.objects.filter(name=value).exists():
+                raise serializers.ValidationError("Company already exists.")
         return value
 
 
@@ -23,8 +30,15 @@ class VacancySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate_title(self, value):
-        if Vacancy.objects.filter(title=value).exists():
-            raise serializers.ValidationError("Title already exists.")
+        instance = getattr(self, 'instance', None)
+        pk = getattr(instance, 'pk', None)
+
+        if pk:
+            if Vacancy.objects.filter(title=value).exclude(pk=pk).exists():
+                raise serializers.ValidationError("Faculty already exists.")
+        else:
+            if Vacancy.objects.filter(title=value).exists():
+                raise serializers.ValidationError("Faculty already exists.")
         return value
 
     def create(self, validated_data):

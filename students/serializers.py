@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import serializers
 
 from students.models import Student, Faculty, Resume
@@ -10,12 +11,19 @@ class FacultySerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
     def validate_name(self, value):
-        if Faculty.objects.filter(name=value).exists():
-            raise serializers.ValidationError("Faculty already exists.")
+        instance = getattr(self, 'instance', None)
+        pk = getattr(instance, 'pk', None)
+        if pk:
+            if Faculty.objects.filter(name=value).exclude(pk=pk).exists():
+                raise serializers.ValidationError("Faculty already exists.")
+        else:
+            if Faculty.objects.filter(name=value).exists():
+                raise serializers.ValidationError("Faculty already exists.")
 
         return value
 
     def create(self, validated_data):
+
         faculty = Faculty.objects.create(**validated_data)
         return faculty
 
@@ -40,7 +48,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('id', 'faculty_id', 'name', 'faculty', 'enrollment_year', 'graduation_year', 'resume')
+        fields = ('id', 'faculty_id', 'name', 'faculty', 'enrollment_year', 'graduation_year', 'resume', 'resume_id')
 
     def validate(self, data):
         if data['enrollment_year'] > data['graduation_year']:
