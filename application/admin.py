@@ -1,8 +1,11 @@
 from django.contrib import admin
 from import_export.admin import ExportMixin
 
+from vacancy.models import Vacancy
 from .models import Application
 from .resource import ApplicationResource
+
+
 
 
 class ApplicationAdmin(ExportMixin, admin.ModelAdmin):
@@ -13,5 +16,6 @@ class ApplicationAdmin(ExportMixin, admin.ModelAdmin):
     list_editable = ('status',)
     ordering = ('status',)
     list_display_links = ('student', 'vacancy')
+    raw_id_fields = ('student', 'vacancy')
 
 admin.site.register(Application, ApplicationAdmin)

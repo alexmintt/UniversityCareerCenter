@@ -1,9 +1,13 @@
 from django.contrib import admin
 from import_export.admin import ExportMixin
 
+from application.models import Application
 from vacancy.models import Vacancy, Company
 from vacancy.resource import VacancyResource
 
+class ApplicationInline(admin.TabularInline):
+    model = Application
+    extra = 0
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at', 'id')
@@ -24,6 +28,7 @@ class VacancyAdmin(ExportMixin, admin.ModelAdmin):
     readonly_fields = ('created_at',)
     ordering = ('-created_at',)
     list_display_links = ('title', 'company')
+    inlines = [ApplicationInline]
 
 
 admin.site.register(Vacancy, VacancyAdmin)
