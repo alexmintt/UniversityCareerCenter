@@ -44,13 +44,39 @@ INSTALLED_APPS = [
     'rest_framework',
     'import_export',
     'logging_app',
-    'drf_yasg'
+    'drf_yasg',
+    'social_django',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 ]
 
 REST_FRAMEWORK = {
 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        "APPS": [
+            {
+                "client_id": "Ov23ctBHGIeyfx3EMlIS",
+                "secret": "b924ad43b3112dffba46d8518897bae3ec1a5fec",
+                "key": "",
+
+            },
+        ],
+        'SCOPE': [
+            'user',
+        ],
+    }
 }
 
 MIDDLEWARE = [
@@ -62,6 +88,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'logging_app.middleware.LoggingMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'UniversityCareerCenter.urls'
@@ -82,6 +109,7 @@ TEMPLATES = [
         },
     },
 ]
+LOGIN_REDIRECT_URL = "/"
 
 WSGI_APPLICATION = 'UniversityCareerCenter.wsgi.application'
 

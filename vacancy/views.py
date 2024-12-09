@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action
@@ -42,3 +43,8 @@ class CompanyViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     search_fields = ['name', 'description', 'address']
     filterset_fields = ['name', 'description', 'address']
+
+
+def list(request):
+    vacancies = Vacancy.objects.all()
+    return render(request, 'vacancy_list.html', {'vacancies': vacancies})

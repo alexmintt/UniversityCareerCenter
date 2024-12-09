@@ -52,4 +52,8 @@ urlpatterns = [
     path("swagger/", schema_view.with_ui('swagger', cache_timeout=0)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+
+    path('accounts/', include('allauth.urls')),
+
+    path('', include('vacancy.urls')),
 ]
