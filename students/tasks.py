@@ -13,9 +13,9 @@ def send_reminder_emails():
 
     for user in users:
         send_mail(
-            'Hello!',
-            'Dear {}, we miss you!'.format(user.user.email),
-            'career@mail.ru',
+            "Hello!",
+            "Dear {}, we miss you!".format(user.user.email),
+            "career@mail.ru",
             [user.user.email],
-            fail_silently=True
+            fail_silently=True,
         )

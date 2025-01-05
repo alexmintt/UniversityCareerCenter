@@ -8,48 +8,60 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('application', '0002_application_created_at'),
-        ('vacancy', '0003_company_alter_vacancy_company'),
-        ('students', '0002_student_created_at'),
+        ("application", "0002_application_created_at"),
+        ("vacancy", "0003_company_alter_vacancy_company"),
+        ("students", "0002_student_created_at"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Faculty',
+            name="Faculty",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, unique=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'Факультет',
-                'verbose_name_plural': 'Факультеты',
+                "verbose_name": "Факультет",
+                "verbose_name_plural": "Факультеты",
             },
         ),
         migrations.RemoveField(
-            model_name='student',
-            name='course',
+            model_name="student",
+            name="course",
         ),
         migrations.AddField(
-            model_name='student',
-            name='enrollment_year',
+            model_name="student",
+            name="enrollment_year",
             field=models.DateField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='student',
-            name='graduation_year',
+            model_name="student",
+            name="graduation_year",
             field=models.DateField(default=django.utils.timezone.now),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='student',
-            name='vacancies',
-            field=models.ManyToManyField(through='application.Application', to='vacancy.vacancy'),
+            model_name="student",
+            name="vacancies",
+            field=models.ManyToManyField(
+                through="application.Application", to="vacancy.vacancy"
+            ),
         ),
         migrations.AlterField(
-            model_name='student',
-            name='faculty',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='students.faculty'),
+            model_name="student",
+            name="faculty",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="students.faculty"
+            ),
         ),
     ]

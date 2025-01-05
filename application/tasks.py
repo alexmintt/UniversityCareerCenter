@@ -5,6 +5,6 @@ from datetime import date, timedelta
 
 @shared_task
 def remove_rejected_applications():
-    Application.objects.filter(status='rejected').delete()
+    Application.objects.filter(status="rejected").delete()
 
-    return 'Rejected applications were removed'
+    return "Rejected applications were removed"

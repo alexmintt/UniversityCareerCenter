@@ -15,29 +15,31 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = '__all__'
+        fields = "__all__"
 
     def validate_status(self, value):
-        if value not in ['approved', 'pending', 'rejected']:
+        if value not in ["approved", "pending", "rejected"]:
             raise serializers.ValidationError("Invalid status")
         return value
 
     def create(self, validated_data):
-        vacancy_id = validated_data.pop('vacancy_id')
-        student_id = validated_data.pop('student_id')
+        vacancy_id = validated_data.pop("vacancy_id")
+        student_id = validated_data.pop("student_id")
 
         student = Student.objects.get(id=student_id)
         vacancy = Vacancy.objects.get(id=vacancy_id)
 
-        application = Application.objects.create(student=student, vacancy=vacancy, **validated_data)
+        application = Application.objects.create(
+            student=student, vacancy=vacancy, **validated_data
+        )
         application.save()
         return application
 
     def update(self, instance, validated_data):
-        instance.status = validated_data.get('status', instance.status)
+        instance.status = validated_data.get("status", instance.status)
 
-        student_id = validated_data.pop('student_id', None)
-        vacancy_id = validated_data.pop('vacancy_id', None)
+        student_id = validated_data.pop("student_id", None)
+        vacancy_id = validated_data.pop("vacancy_id", None)
         if vacancy_id:
             vacancy = Vacancy.objects.get(id=vacancy_id)
             instance.vacancy = vacancy

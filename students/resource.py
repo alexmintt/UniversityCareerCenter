@@ -8,8 +8,8 @@ class StudentResource(resources.ModelResource):
 
     class Meta:
         model = Student
-        fields = ('id', 'name', 'faculty', 'resume', 'created_at')
-        export_order = ('id', 'full_name', 'faculty', 'created_at')
+        fields = ("id", "name", "faculty", "resume", "created_at")
+        export_order = ("id", "full_name", "faculty", "created_at")
 
     def get_export_queryset(self, queryset, request):
         return queryset.filter(faculty=2)

@@ -7,27 +7,37 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('vacancy', '0002_vacancy_created_at_vacancy_salary'),
+        ("vacancy", "0002_vacancy_created_at_vacancy_salary"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name="Company",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField()),
-                ('address', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("description", models.TextField()),
+                ("address", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'Компания',
-                'verbose_name_plural': 'Компании',
+                "verbose_name": "Компания",
+                "verbose_name_plural": "Компании",
             },
         ),
         migrations.AlterField(
-            model_name='vacancy',
-            name='company',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='vacancy.company'),
+            model_name="vacancy",
+            name="company",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="vacancy.company"
+            ),
         ),
     ]

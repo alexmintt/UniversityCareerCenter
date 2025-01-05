@@ -6,11 +6,11 @@ from vacancy.models import Vacancy, Company
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = '__all__'
+        fields = "__all__"
 
     def validate_name(self, value):
-        instance = getattr(self, 'instance', None)
-        pk = getattr(instance, 'pk', None)
+        instance = getattr(self, "instance", None)
+        pk = getattr(instance, "pk", None)
 
         if pk:
             if Company.objects.filter(name=value).exclude(pk=pk).exists():
@@ -27,11 +27,11 @@ class VacancySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Vacancy
-        fields = '__all__'
+        fields = "__all__"
 
     def validate_title(self, value):
-        instance = getattr(self, 'instance', None)
-        pk = getattr(instance, 'pk', None)
+        instance = getattr(self, "instance", None)
+        pk = getattr(instance, "pk", None)
 
         if pk:
             if Vacancy.objects.filter(title=value).exclude(pk=pk).exists():
@@ -44,7 +44,7 @@ class VacancySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         vacancy = Vacancy.objects.create(**validated_data)
 
-        company_id = validated_data.get('company_id')
+        company_id = validated_data.get("company_id")
         company = Company.objects.get(id=company_id)
         vacancy.company = company
 
@@ -53,10 +53,11 @@ class VacancySerializer(serializers.ModelSerializer):
         return vacancy
 
     def update(self, instance, validated_data):
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        instance.salary = validated_data.get('salary', instance.salary)
-        company_id = validated_data.get('company_id', instance)
+        instance.title = validated_data.get("title", instance.title)
+        instance.description = validated_data.get(
+            "description", instance.description)
+        instance.salary = validated_data.get("salary", instance.salary)
+        company_id = validated_data.get("company_id", instance)
         if company_id:
             company = Company.objects.get(id=company_id)
             instance.company = company

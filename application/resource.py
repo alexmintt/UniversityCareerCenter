@@ -9,8 +9,16 @@ class ApplicationResource(resources.ModelResource):
 
     class Meta:
         model = Application
-        fields = ('id', 'student', 'vacancy', 'status', 'student_name', 'vacancy_title', 'id')
-        export_order = ('id', 'student_name', 'vacancy_title', 'status')
+        fields = (
+            "id",
+            "student",
+            "vacancy",
+            "status",
+            "student_name",
+            "vacancy_title",
+            "id",
+        )
+        export_order = ("id", "student_name", "vacancy_title", "status")
 
     def dehydrate_student_name(self, application):
         return application.student.name
@@ -19,4 +27,4 @@ class ApplicationResource(resources.ModelResource):
         return application.vacancy.title
 
     def get_export_queryset(self, queryset, request):
-        return queryset.filter(status='approved')
+        return queryset.filter(status="approved")

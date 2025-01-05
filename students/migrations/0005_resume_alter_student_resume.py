@@ -7,29 +7,41 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('students', '0004_student_user'),
+        ("students", "0004_student_user"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Resume',
+            name="Resume",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=150)),
-                ('text', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('skills', models.TextField()),
-                ('experience', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=150)),
+                ("text", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("skills", models.TextField()),
+                ("experience", models.TextField()),
             ],
             options={
-                'verbose_name': 'Резюме',
-                'verbose_name_plural': 'Резюме',
+                "verbose_name": "Резюме",
+                "verbose_name_plural": "Резюме",
             },
         ),
         migrations.AlterField(
-            model_name='student',
-            name='resume',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='students.resume'),
+            model_name="student",
+            name="resume",
+            field=models.OneToOneField(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="students.resume",
+            ),
         ),
     ]

@@ -9,22 +9,52 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('students', '0001_initial'),
-        ('vacancy', '0001_initial'),
+        ("students", "0001_initial"),
+        ("vacancy", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Application',
+            name="Application",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('approved', 'Approved'), ('rejected', 'Rejected')], max_length=20)),
-                ('student', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='students.student')),
-                ('vacancy', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='vacancy.vacancy')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("approved", "Approved"),
+                            ("rejected", "Rejected"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "student",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="students.student",
+                    ),
+                ),
+                (
+                    "vacancy",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="vacancy.vacancy",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Заявка',
-                'verbose_name_plural': 'Заявки',
+                "verbose_name": "Заявка",
+                "verbose_name_plural": "Заявки",
             },
         ),
     ]

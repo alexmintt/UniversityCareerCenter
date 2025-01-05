@@ -14,6 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
@@ -27,17 +28,17 @@ from vacancy.views import VacancyViewSet, CompanyViewSet
 
 router = DefaultRouter()
 
-router.register(r'students', StudentViewSet)
-router.register(r'faculties', FacultyViewSet)
-router.register(r'companies', CompanyViewSet)
-router.register(r'applications', ApplicationsViewSet)
-router.register(r'vacancies', VacancyViewSet)
-router.register(r'resume', ResumeViewSet)
+router.register(r"students", StudentViewSet)
+router.register(r"faculties", FacultyViewSet)
+router.register(r"companies", CompanyViewSet)
+router.register(r"applications", ApplicationsViewSet)
+router.register(r"vacancies", VacancyViewSet)
+router.register(r"resume", ResumeViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
         title="University Career Center API",
-        default_version='v1',
+        default_version="v1",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),
@@ -47,13 +48,10 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('api-auth/', include('rest_framework.urls')),
-
-    path("swagger/", schema_view.with_ui('swagger', cache_timeout=0)),
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-
-    path('accounts/', include('allauth.urls')),
-
-    path('', include('vacancy.urls')),
+    path("api-auth/", include("rest_framework.urls")),
+    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0)),
+    path("admin/", admin.site.urls),
+    path("api/", include(router.urls)),
+    path("accounts/", include("allauth.urls")),
+    path("", include("vacancy.urls")),
 ]

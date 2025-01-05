@@ -41,7 +41,7 @@ class Student(models.Model):
     graduation_year = models.DateField()
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    vacancies = models.ManyToManyField(Vacancy, through='application.Application')
+    vacancies = models.ManyToManyField(Vacancy, through="application.Application")
     resume = models.OneToOneField(Resume, null=True, on_delete=models.SET_NULL)
 
     def is_graduated(self):

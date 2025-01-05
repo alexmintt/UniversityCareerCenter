@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y8)q17mk+@e917@7(fkl-u%h!*80$w)05@r4pb!w=k_7*v$yk0'
+SECRET_KEY = "django-insecure-y8)q17mk+@e917@7(fkl-u%h!*80$w)05@r4pb!w=k_7*v$yk0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,94 +31,91 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'application',
-    'vacancy',
-    'students',
-    'django_filters',
-    'rest_framework',
-    'import_export',
-    'logging_app',
-    'drf_yasg',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "application",
+    "vacancy",
+    "students",
+    "django_filters",
+    "rest_framework",
+    "import_export",
+    "logging_app",
+    "drf_yasg",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.github",
 ]
 
 REST_FRAMEWORK = {
-
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
 }
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
-    'github': {
+    "github": {
         "APPS": [
             {
                 "client_id": "Ov23ctBHGIeyfx3EMlIS",
                 "secret": "b924ad43b3112dffba46d8518897bae3ec1a5fec",
                 "key": "",
-
             },
         ],
-        'SCOPE': [
-            'user',
+        "SCOPE": [
+            "user",
         ],
     }
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'logging_app.middleware.LoggingMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "logging_app.middleware.LoggingMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
-ROOT_URLCONF = 'UniversityCareerCenter.urls'
+ROOT_URLCONF = "UniversityCareerCenter.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [BASE_DIR / "templates"],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 LOGIN_REDIRECT_URL = "/"
 
-WSGI_APPLICATION = 'UniversityCareerCenter.wsgi.application'
+WSGI_APPLICATION = "UniversityCareerCenter.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -127,25 +124,25 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = "ru-ru"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -154,48 +151,48 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mailhog'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "mailhog"
 EMAIL_PORT = 1025
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_SSL = False
-
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'UTC'
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/0',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
-
-CELERY_BEAT_SCHEDULE = {
-    'save-cached-log-to-db': {
-        'task': 'logging_app.tasks.save_logs_to_db',
-        'schedule': crontab(minute='*/5'),
-    },
-    'send-reminder-emails': {
-        'task': 'students.tasks.send_reminder_emails',
-        'schedule': crontab(minute='*/1'),
-    },
-    'remove-rejected-applications': {
-        'task': 'application.tasks.remove_rejected_applications',
-        'schedule': crontab(minute='*/1'),
-    },
-}
+#
+# CELERY_BROKER_URL = 'redis://redis:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'UTC'
+#
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://redis:6379/0',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+#
+# CELERY_BEAT_SCHEDULE = {
+#     'save-cached-log-to-db': {
+#         'task': 'logging_app.tasks.save_logs_to_db',
+#         'schedule': crontab(minute='*/5'),
+#     },
+#     'send-reminder-emails': {
+#         'task': 'students.tasks.send_reminder_emails',
+#         'schedule': crontab(minute='*/1'),
+#     },
+#     'remove-rejected-applications': {
+#         'task': 'application.tasks.remove_rejected_applications',
+#         'schedule': crontab(minute='*/1'),
+#     },
+# }

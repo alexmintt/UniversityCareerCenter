@@ -7,22 +7,29 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Vacancy',
+            name="Vacancy",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=100)),
-                ('company', models.CharField(max_length=100)),
-                ('description', models.TextField()),
-                ('requirements', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=100)),
+                ("company", models.CharField(max_length=100)),
+                ("description", models.TextField()),
+                ("requirements", models.TextField()),
             ],
             options={
-                'verbose_name': 'Вакансия',
-                'verbose_name_plural': 'Вакансии',
+                "verbose_name": "Вакансия",
+                "verbose_name_plural": "Вакансии",
             },
         ),
     ]
