@@ -1,3 +1,5 @@
 .venv
 **/pycache**
 .idea
+**.pub
+.DS_Store?
