@@ -22,6 +22,9 @@ class Application(models.Model):
         self.status = "approved"
         self.save()
 
+    def __str__(self):
+        return f"{self.student.name} - {self.vacancy.title} - {self.status}"
+
     class Meta:
         verbose_name_plural = "Заявки"
         verbose_name = "Заявка"
