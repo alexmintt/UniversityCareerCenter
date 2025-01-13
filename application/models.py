@@ -26,5 +26,6 @@ class Application(models.Model):
         return f"{self.student.name} - {self.vacancy.title} - {self.status}"
 
     class Meta:
+        ordering = ['status']        
         verbose_name_plural = "Заявки"
         verbose_name = "Заявка"

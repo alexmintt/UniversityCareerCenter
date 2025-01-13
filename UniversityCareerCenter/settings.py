@@ -164,35 +164,35 @@ EMAIL_PORT = 1025
 EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 EMAIL_USE_SSL = False
-#
-# CELERY_BROKER_URL = 'redis://redis:6379/0'
-# CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'UTC'
-#
-# CACHES = {
-#     'default': {
-#         'BACKEND': 'django_redis.cache.RedisCache',
-#         'LOCATION': 'redis://redis:6379/0',
-#         'OPTIONS': {
-#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-#         }
-#     }
-# }
-#
-# CELERY_BEAT_SCHEDULE = {
-#     'save-cached-log-to-db': {
-#         'task': 'logging_app.tasks.save_logs_to_db',
-#         'schedule': crontab(minute='*/5'),
-#     },
-#     'send-reminder-emails': {
-#         'task': 'students.tasks.send_reminder_emails',
-#         'schedule': crontab(minute='*/1'),
-#     },
-#     'remove-rejected-applications': {
-#         'task': 'application.tasks.remove_rejected_applications',
-#         'schedule': crontab(minute='*/1'),
-#     },
-# }
+
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/0',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+CELERY_BEAT_SCHEDULE = {
+    'save-cached-log-to-db': {
+        'task': 'logging_app.tasks.save_logs_to_db',
+        'schedule': crontab(minute='*/5'),
+    },
+    'send-reminder-emails': {
+        'task': 'students.tasks.send_reminder_emails',
+        'schedule': crontab(minute='*/1'),
+    },
+    'remove-rejected-applications': {
+        'task': 'application.tasks.remove_rejected_applications',
+        'schedule': crontab(minute='*/1'),
+    },
+}

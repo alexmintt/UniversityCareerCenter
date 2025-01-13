@@ -14,6 +14,7 @@ class Faculty(models.Model):
         return self.name
 
     class Meta:
+        ordering = ['name']
         verbose_name_plural = "Факультеты"
         verbose_name = "Факультет"
 
@@ -30,6 +31,8 @@ class Resume(models.Model):
         return f"{self.title} - {self.created_at}"
 
     class Meta:
+        ordering = ['title']
+
         verbose_name_plural = "Резюме"
         verbose_name = "Резюме"
 
@@ -51,5 +54,6 @@ class Student(models.Model):
         return self.name
 
     class Meta:
+        ordering = ['name']        
         verbose_name_plural = "Студенты"
         verbose_name = "Студент"

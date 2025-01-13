@@ -11,6 +11,8 @@ class Company(models.Model):
         return self.name
 
     class Meta:
+        ordering = ['name']        
+
         verbose_name_plural = "Компании"
         verbose_name = "Компания"
 
@@ -27,5 +29,7 @@ class Vacancy(models.Model):
         return self.title
 
     class Meta:
+        ordering = ['title']
+
         verbose_name_plural = "Вакансии"
         verbose_name = "Вакансия"

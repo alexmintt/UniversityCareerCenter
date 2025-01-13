@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load tags %}
 {% block content %}
-
+    <h1>{% say_hello_world %} {% show_name 'alexmintt' %}</h1>
     <div class="container">
         <table class="table">
             <thead>
@@ -23,8 +24,14 @@
                 </tr>
 
             {% endfor %}
-            </tbody>
 
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>All ({% get_size_of_vacancies %})</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
     

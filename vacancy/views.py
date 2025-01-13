@@ -68,5 +68,5 @@ class CompanyViewSet(viewsets.ModelViewSet):
 
 
 def list(request):
-    vacancies = Vacancy.objects.all()
+    vacancies = Vacancy.objects.all().order_by('-title')
     return render(request, "vacancy_list.html", {"vacancies": vacancies})
