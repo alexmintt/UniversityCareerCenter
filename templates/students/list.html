@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Faculty</th>
+                <th>Enrollment</th>
+                <th>Graduation</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for student in students %}
+            <tr>
+
+                <th>{{ student.name | upper }}</th>
+                <th>{{ student.faculty }}</th>
+
+                <th>
+                    {{ student.enrollment_year|date:"M d, Y" }}
+                </th>
+                <th>
+                    {{ student.graduation_year|date:"M d, Y" }}
+                </th>
+                <th><a href="{{ student.get_absolute_url }}">{{student.pk}}</a>
+                    
+                </th>
+            </tr>
+
+            {% endfor %}
+
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <div class="pagination">
+                        {% if students.has_previous %}
+                        <a href="?page={{ students.previous_page_number }}">Предыдущая</a>
+                        {% endif %}
+
+                        <span>Страница {{ students.number }} из {{ students.paginator.num_pages }}</span>
+
+                        {% if students.has_next %}
+                        <a href="?page={{ students.next_page_number }}">Следующая</a>
+                        {% endif %}
+                    </div>
+
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% endblock content %}

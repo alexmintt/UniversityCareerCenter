@@ -23,7 +23,7 @@ from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
 from application.views import ApplicationsViewSet
-from students.views import StudentViewSet, FacultyViewSet, ResumeViewSet
+from students.view_sets import StudentViewSet, FacultyViewSet, ResumeViewSet
 from vacancy.views import VacancyViewSet, CompanyViewSet
 
 router = DefaultRouter()
@@ -54,4 +54,5 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("accounts/", include("allauth.urls")),
     path("", include("vacancy.urls")),
+    path("", include("students.urls"))
 ]

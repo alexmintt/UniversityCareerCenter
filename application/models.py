@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from students.models import Student
 from vacancy.models import Vacancy
@@ -15,7 +16,7 @@ class Application(models.Model):
             ("rejected", "Rejected"),
         ],
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now())
     updated_at = models.DateTimeField(auto_now=True)
 
     def approve(self):

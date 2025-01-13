@@ -1,65 +1,67 @@
-from datetime import datetime
+from pyexpat.errors import messages
 
-from django.db.models import Q
-from django_filters.rest_framework.backends import DjangoFilterBackend
-from rest_framework import viewsets, filters
-from rest_framework.decorators import action
-from rest_framework.response import Response
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.shortcuts import redirect, render, get_object_or_404
 
-from students.models import Student, Faculty, Resume
-from students.serializers import StudentSerializer, FacultySerializer, ResumeSerializer
-from vacancy.serializers import VacancySerializer
+from students.forms import StudentRegistrationForm, StudentLoginForm
+from students.models import Student
 
 
-class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
-    serializer_class = StudentSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["faculty"]
-    search_fields = ["name", "faculty__name", "resume__text"]
+def list_view(request):
+    students = Student.objects.all()
+    paginator = Paginator(students, 5)
 
-    @action(detail=False, methods=["GET"], url_path="by-faculty")
-    def get_by_faculty(self, request):
-        faculty = request.query_params.get("faculty")
+    page = request.GET.get('page')
+    try:
+        students = paginator.page(page)
+    except PageNotAnInteger:
+        students = paginator.page(1)
+    except EmptyPage:
+        students = paginator.page(paginator.num_pages)
 
-        if faculty is None:
-            return Response({"error": "Parameter course is required"}, status=400)
-        students = Student.objects.filter(faculty=faculty)
-        serializer = StudentSerializer(students, many=True)
-        return Response(serializer.data)
-
-    @action(detail=True, methods=["POST"], url_path="update-resume")
-    def update_resume(self, request):
-        student = self.get_object()
-        student.resume = request.data.get("resume")
-        student.save()
-        return Response({"status": "success"})
-
-    @action(detail=True, methods=["GET"], url_path="vacancies")
-    def get_vacancies(self, request, pk):
-        student = self.get_object()
-        vacancies = student.vacancies.all()
-        serializer = VacancySerializer(vacancies, many=True)
-        return Response(serializer.data)
-
-    @action(detail=False, methods=["GET"])
-    def get_graduated(self, request):
-        students = Student.objects.filter(graduation_year__lt=datetime.now())
-        serializer = StudentSerializer(students, many=True)
-        return Response(serializer.data)
+    return render(request, 'students/list.html', {'students': students})
 
 
-class FacultyViewSet(viewsets.ModelViewSet):
-    queryset = Faculty.objects.all()
-    serializer_class = FacultySerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["name"]
-    search_fields = ["name"]
+def detail_view(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    return render(request, 'students/detail.html', {'student': student})
 
 
-class ResumeViewSet(viewsets.ModelViewSet):
-    queryset = Resume.objects.all()
-    serializer_class = ResumeSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ["title"]
-    search_fields = ["title", "text", "skills"]
+def register_view(request):
+    if request.method == 'POST':
+        form = StudentRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            name = request.POST.get('name')
+            Student.objects.create(user=user, name=name)
+            messages.success(request, 'Registration successful!')
+            return redirect('login')
+    else:
+        form = StudentRegistrationForm()
+    return render(request, 'auth/register.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        form = StudentLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, f'Welcome back, {user.username}!')
+                return redirect('vacancy-list-view')  # Redirect to a protected page after login
+            else:
+                messages.error(request, 'Invalid username or password.')
+    else:
+        form = StudentLoginForm()
+    return render(request, 'auth/login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('vacancy-list-view')
