@@ -14,7 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from drf_yasg import openapi
@@ -22,6 +22,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
+from UniversityCareerCenter import settings
 from application.views import ApplicationsViewSet
 from students.view_sets import StudentViewSet, FacultyViewSet, ResumeViewSet
 from vacancy.views import VacancyViewSet, CompanyViewSet
@@ -58,4 +59,4 @@ urlpatterns = [
     path("auth/", include("auth_app.urls")),
     path('__debug__/', include('debug_toolbar.urls')),
     
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

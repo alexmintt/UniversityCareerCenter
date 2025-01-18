@@ -66,13 +66,21 @@
                     </div>
 
                 </td>
-            </tr>
-            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>
                     <a href="{% url 'student-create-view' %}">Create Student</a>
                 </td>
+                <td>
+                    Total: {{ total }}
+                 </td>
             </tr>
+
         </tfoot>
     </table>
+
+    <p>Total Visits: {{ visit_count }}</p>
 </div>
 {% endblock content %}

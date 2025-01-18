@@ -22,6 +22,10 @@ class Faculty(models.Model):
         verbose_name = "Факультет"
 
 
+
+
+
+
 class Resume(models.Model):
     title = models.CharField(max_length=150)
     text = models.TextField()
@@ -29,6 +33,7 @@ class Resume(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     skills = models.TextField()
     experience = models.TextField()
+    portfolio_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} - {self.created_at}"
@@ -39,7 +44,14 @@ class Resume(models.Model):
         verbose_name_plural = "Резюме"
         verbose_name = "Резюме"
 
+class Certificate(models.Model):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)  # Name of the certificate
+    file = models.FileField(upload_to='certificates/')  # File upload for certificates
+    issued_date = models.DateField(null=True, blank=True)  # Optional issued date
 
+    def __str__(self):
+        return self.name
 class StudentManager(models.Manager):
     def average_graduation_year(self):
          return self.aggregate(Avg('graduation_year'))
@@ -53,7 +65,9 @@ class Student(models.Model):
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now())
     vacancies = models.ManyToManyField(Vacancy, through="application.Application")
-    resume = models.OneToOneField(Resume, null=True, blank=True, on_delete=models.SET_NULL)
+    resume = models.ManyToManyField(Resume, blank=True)
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)  # Added avatar field
+
 
     objects = StudentManager()
 
@@ -61,7 +75,7 @@ class Student(models.Model):
     def save(self, *args, **kwargs):
         # Проверка и автоматическое заполнение поля graduation_year
         if self.enrollment_year and not self.graduation_year:
-            self.graduation_year = self.enrollment_year + timedelta(days=4 * 365)
+            self.graduation_year = self.enrollment_year + datetime.timedelta(days=4 * 365)
 
         # Приведение имени к формату "Первая буква заглавная"
         if self.name:
