@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+
 {% block content %}
 
 
-<h1>{{ student.name }}</h1>
-
+<h1>{{ form.instance.name|default:"New Student" }}</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save</button>
 </form>
 <a href="{% url 'student-list-view' %}">Back to List</a>
+
 {% endblock content %}

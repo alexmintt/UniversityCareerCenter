@@ -53,9 +53,23 @@ class Student(models.Model):
     faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now())
     vacancies = models.ManyToManyField(Vacancy, through="application.Application")
-    resume = models.OneToOneField(Resume, null=True, on_delete=models.SET_NULL)
+    resume = models.OneToOneField(Resume, null=True, blank=True, on_delete=models.SET_NULL)
 
     objects = StudentManager()
+
+
+    def save(self, *args, **kwargs):
+        # Проверка и автоматическое заполнение поля graduation_year
+        if self.enrollment_year and not self.graduation_year:
+            self.graduation_year = self.enrollment_year + timedelta(days=4 * 365)
+
+        # Приведение имени к формату "Первая буква заглавная"
+        if self.name:
+            self.name = self.name.title()
+
+        # Вызов метода full_clean() для валидации данных
+        self.full_clean()  # Проверит clean_<fieldname>(), если есть
+        super().save(*args, **kwargs)  # Вызов стандартного сохранения
 
 
     def get_absolute_url(self):

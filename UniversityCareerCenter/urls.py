@@ -48,11 +48,14 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path("api-auth/", include("rest_framework.urls")),
+    # path("api-auth/", include("rest_framework.urls")),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0)),
     path("admin/", admin.site.urls),
-    path("api/", include(router.urls)),
+    # path("api/", include(router.urls)),
     path("accounts/", include("allauth.urls")),
     path("", include("vacancy.urls")),
-    path("", include("students.urls"))
+    path("students/", include("students.urls")),
+    path("auth/", include("auth_app.urls")),
+    path('__debug__/', include('debug_toolbar.urls')),
+    
 ]

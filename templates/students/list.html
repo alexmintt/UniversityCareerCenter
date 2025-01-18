@@ -9,6 +9,8 @@
                 <th>Faculty</th>
                 <th>Enrollment</th>
                 <th>Graduation</th>
+                <th>Vacancies</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -26,8 +28,21 @@
                 <th>
                     {{ student.graduation_year|date:"M d, Y" }}
                 </th>
-                <th><a href="{{ student.get_absolute_url }}">{{student.pk}}</a>
-                    
+                <th>
+                    <p>Vacancies:</p>
+                    <ul>
+                        {% for vacancy in student.vacancies.all %}
+                            <li>{{ vacancy.title }}</li>
+                        {% empty %}
+                            <li>No vacancies</li>
+                        {% endfor %}
+                    </ul>
+                </th>
+                <th>
+                    <a href="{{ student.get_absolute_url }}">Detail</a>
+                </th>
+                <th>
+                    <a href="{% url 'student-delete-view' student.id %}">Delete Student</a>
                 </th>
             </tr>
 
@@ -50,6 +65,11 @@
                         {% endif %}
                     </div>
 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="{% url 'student-create-view' %}">Create Student</a>
                 </td>
             </tr>
         </tfoot>
