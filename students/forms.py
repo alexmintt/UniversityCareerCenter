@@ -9,8 +9,10 @@ from students.models import Student, Resume, Certificate
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['user', 'name', 'enrollment_year', 'graduation_year', 'faculty']
+        exclude = ['created_at']
+        fields = ['user', 'name', 'enrollment_year', 'graduation_year', 'faculty', 'avatar']
         widgets = {
+            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),  # Avatar widget
             'user': forms.Select(attrs={'class': 'form-control'}),
             'name': forms.TextInput(attrs={
                 'class': 'form-control',

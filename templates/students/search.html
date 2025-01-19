@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-primary mb-4">Search Students</h1>
+
+    <!-- Search and Filter Form -->
+    <form method="get" class="mb-4">
+        <div class="row g-2 align-items-center">
+            <!-- Search by Name -->
+            <div class="col-md-3 col-sm-6">
+                <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Search by name">
+            </div>
+
+            <!-- Filter by Resume Title -->
+            <div class="col-md-3 col-sm-6">
+                <input type="text" name="resume_title" value="{{ resume_title }}" class="form-control" placeholder="Filter by Resume Title">
+            </div>
+
+            <!-- Enrollment Year -->
+            <div class="col-md-2 col-sm-6">
+                <input type="number" name="enrollment_year" value="{{ selected_year }}" class="form-control" placeholder="Enrollment Year">
+            </div>
+
+            <!-- Faculty Filter -->
+            <div class="col-md-2 col-sm-6">
+                <select name="faculty" class="form-select">
+                    <option value="">All Faculties</option>
+                    {% for faculty in faculties %}
+                        <option value="{{ faculty.id }}" {% if selected_faculty == faculty.id|stringformat:"s" %}selected{% endif %}>
+                            {{ faculty.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Search Button -->
+            <div class="col-md-2 col-sm-12">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Results -->
+    {% if students %}
+    <h4 class="text-success">Found {{ students|length }} student(s):</h4>
+    <div class="row g-4">
+        {% for student in students %}
+        <div class="col-12">
+            <div class="card shadow h-100">
+                <div class="row g-0">
+                    <!-- Card Header: Name -->
+                    <div class="col-md-3 bg-primary text-white d-flex justify-content-center align-items-center">
+                        <div class="p-3 text-center">
+                            <h4 class="card-title">{{ student.name }}</h4>
+                            <p class="mb-0"><strong>Faculty:</strong> {{ student.faculty.name }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Card Body: Details -->
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <!-- Enrollment and Graduation -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p><strong>Enrollment Year:</strong> {{ student.enrollment_year|date:"Y" }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        <strong>Graduation Year:</strong>
+                                        {% if student.graduation_year %}
+                                            {{ student.graduation_year|date:"Y" }}
+                                        {% else %}
+                                            <span class="text-muted">Not graduated yet</span>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Resumes -->
+                            <div>
+                                <h5 class="card-text text-secondary"><strong>Resumes:</strong></h5>
+                                {% if student.resume.exists %}
+                                    <ul class="list-group">
+                                        {% for resume in student.resume.all %}
+                                        <li class="list-group-item">
+                                            <strong>Title:</strong> {{ resume.title }}<br>
+                                            <strong>Summary:</strong> {{ resume.text|truncatewords:30 }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No Resumes available.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Card Footer: Actions -->
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="{{ student.get_absolute_url }}" class="btn btn-info">
+                                <i class="fas fa-info-circle"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <h4 class="text-danger">No students found.</h4>
+    {% endif %}
+</div>
+{% endblock %}

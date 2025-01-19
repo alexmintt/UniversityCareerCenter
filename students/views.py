@@ -3,11 +3,12 @@ from pyexpat.errors import messages
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Count
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
 
 from students.forms import StudentForm, ResumeForm, CertificateForm
-from students.models import Student, Resume, Certificate
+from students.models import Student, Resume, Certificate, Faculty
 
 
 def list_view(request):
@@ -22,14 +23,18 @@ def list_view(request):
     except EmptyPage:
         students = paginator.page(paginator.num_pages)
 
+    faculties_with_counts = Faculty.objects.annotate(student_count=Count('student')).values_list('name',
+                                                                                                 'student_count')
+
     total = Student.objects.count()
     visit_count = request.session.get('visit_count', 0)
-    return render(request, 'students/list.html', {'students': students, 'total': total, "visit_count": visit_count})
+    return render(request, 'students/list.html', {'students': students, 'total': total, "visit_count": visit_count,
+                                                  'faculties': faculties_with_counts})
 
 
 def detail_view(request, pk):
     student = get_object_or_404(Student, pk=pk)
-    form = StudentForm(request.POST or None, instance=student)
+    form = StudentForm(request.POST or None, files=request.FILES or None, instance=student)
     if form.is_valid():
         form.save()
 
@@ -37,7 +42,7 @@ def detail_view(request, pk):
 
 
 def create_view(request):
-    form = StudentForm(request.POST or None)
+    form = StudentForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/students/')
@@ -110,3 +115,40 @@ def delete_certificate(request, pk):
         certificate.delete()
         messages.success(request, f"Certificate '{certificate.name}' has been deleted successfully.")
     return redirect(request.META.get('HTTP_REFERER', '/'))  # Redirect to the previous page
+
+
+def student_search(request):
+    query = request.GET.get('q', '')  # Get the search query
+    faculty_id = request.GET.get('faculty', '')  # Get the selected faculty filter
+    resume_title = request.GET.get('resume_title', '')  # Get the resume title filter
+    enrollment_year = request.GET.get('enrollment_year', '')  # Get the enrollment year filter
+
+    # Base QuerySet
+    students = Student.objects.all()
+
+    # Apply search query
+    if query:
+        students = students.filter(name__contains=query)
+
+    # Apply faculty filter
+    if faculty_id:
+        students = students.filter(faculty__id=faculty_id)
+
+    # Apply enrollment year filter
+    if enrollment_year:
+        students = students.filter(enrollment_year__year=enrollment_year)
+
+    # Apply resume title filter
+    if resume_title:
+        students = students.filter(resume__title__icontains=resume_title)
+
+    # Get all faculties for the filter dropdown
+    faculties = Faculty.objects.values('id', 'name')
+
+    return render(request, 'students/search.html', {
+        'students': students[:10],
+        'faculties': faculties,
+        'query': query,
+        'selected_faculty': faculty_id,
+        'selected_year': enrollment_year,
+    })
