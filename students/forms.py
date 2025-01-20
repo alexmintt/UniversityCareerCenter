@@ -10,13 +10,12 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         exclude = ['created_at']
-        fields = ['user', 'name', 'enrollment_year', 'graduation_year', 'faculty', 'avatar']
+        fields = [ 'name', 'enrollment_year', 'graduation_year', 'faculty', 'avatar']
         widgets = {
-            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),  # Avatar widget
-            'user': forms.Select(attrs={'class': 'form-control'}),
+            'avatar': forms.ClearableFileInput(attrs={'class': 'form-control'}),  # Виджет для аватара
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter the student\'s full name',
+                'placeholder': 'Введите полное имя студента',
             }),
             'enrollment_year': forms.SelectDateWidget(
                 years=range(2000, 2030),
@@ -27,61 +26,78 @@ class StudentForm(forms.ModelForm):
                 attrs={'class': 'form-control'}
             ),
             'faculty': forms.Select(attrs={'class': 'form-control'}),
-
         }
         labels = {
-            'user': 'Linked User',
-            'name': 'Full Name',
-            'enrollment_year': 'Enrollment Year',
-            'graduation_year': 'Graduation Year',
-            'faculty': 'Faculty',
+            'name': 'ФИО',
+            'enrollment_year': 'Год поступления',
+            'graduation_year': 'Год выпуска',
+            'faculty': 'Факультет',
         }
         help_texts = {
-            'user': 'Select the associated user account.',
-            'enrollment_year': 'Choose the year the student enrolled.',
-            'graduation_year': 'Choose the year the student graduated (if applicable).',
-            'faculty': 'Select the faculty the student belongs to.',
+            'enrollment_year': 'Выберите год поступления студента.',
+            'graduation_year': 'Выберите год выпуска студента (если применимо).',
+            'faculty': 'Выберите факультет студента.',
         }
         error_messages = {
             'name': {
-                'required': 'The student name is required.',
-                'max_length': 'Name cannot exceed 100 characters.',
+                'required': 'Имя студента обязательно.',
+                'max_length': 'Имя не может превышать 100 символов.',
             },
             'enrollment_year': {
-                'invalid': 'Please select a valid enrollment year.',
+                'invalid': 'Пожалуйста, выберите корректный год поступления.',
             },
             'graduation_year': {
-                'invalid': 'Please select a valid graduation year.',
+                'invalid': 'Пожалуйста, выберите корректный год выпуска.',
             },
         }
 
     class Media:
         css = {
-            'all': ('css/form.css')
+            'all': ['css/form.css']
         }
 
     def clean_enrollment_year(self):
         enrollment_year = self.cleaned_data.get('enrollment_year')
         if enrollment_year and enrollment_year.year > now().year:
-            raise forms.ValidationError("Enrollment year cannot be in the future.")
+            raise forms.ValidationError("Год поступления не может быть в будущем.")
         return enrollment_year
 
     def clean_graduation_year(self):
         enrollment_year = self.cleaned_data.get('enrollment_year')
         graduation_year = self.cleaned_data.get('graduation_year')
         if graduation_year and enrollment_year and graduation_year < enrollment_year:
-            raise forms.ValidationError("Graduation year cannot be earlier than enrollment year.")
+            raise forms.ValidationError("Год выпуска не может быть раньше года поступления.")
         return graduation_year
+
 
 class CertificateForm(forms.ModelForm):
     class Meta:
         model = Certificate
         fields = ['name', 'file', 'issued_date']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Certificate name'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Название сертификата'}),
             'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
             'issued_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
+        labels = {
+            'name': 'Название сертификата',
+            'file': 'Файл сертификата',
+            'issued_date': 'Дата выдачи',
+        }
+        help_texts = {
+            'name': 'Введите название сертификата.',
+            'file': 'Загрузите файл сертификата.',
+            'issued_date': 'Выберите дату выдачи сертификата.',
+        }
+        error_messages = {
+            'name': {
+                'required': 'Название сертификата обязательно.',
+            },
+            'file': {
+                'required': 'Файл сертификата обязателен.',
+            },
+        }
+
 
 class ResumeForm(forms.ModelForm):
     class Meta:
@@ -90,40 +106,40 @@ class ResumeForm(forms.ModelForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter the title of the resume',
+                'placeholder': 'Введите название резюме',
             }),
             'text': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter the full resume text',
+                'placeholder': 'Введите полный текст резюме',
                 'rows': 5,
             }),
             'experience': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter your experience',
+                'placeholder': 'Введите ваш опыт работы',
                 'rows': 5,
             }),
             'skills': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter your skills',
+                'placeholder': 'Введите ваши навыки',
             }),
-            'portfolio_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Enter portfolio URL'}),
-
+            'portfolio_url': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Введите URL портфолио'}),
         }
         labels = {
-            'title': 'Resume Title',
-            'text': 'Resume Text',
-            'skills': 'Skills',
-            'experience': 'Experience',
+            'title': 'Название резюме',
+            'text': 'Текст резюме',
+            'skills': 'Навыки',
+            'experience': 'Опыт работы',
+            'portfolio_url': 'URL портфолио',
         }
         help_texts = {
-            'skills': 'Use "," to divide.',
+            'skills': 'Используйте "," для разделения навыков.',
         }
         error_messages = {
             'title': {
-                'required': 'Please provide a title for the resume.',
-                'max_length': 'Title cannot exceed 150 characters.',
+                'required': 'Пожалуйста, укажите название для резюме.',
+                'max_length': 'Название не может превышать 150 символов.',
             },
             'text': {
-                'required': 'Please provide the full text for the resume.',
+                'required': 'Пожалуйста, укажите полный текст резюме.',
             },
         }

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'main' %}">Главная</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'student-profile' %}">Профиль</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Редактирование
+        </li>
+    </ol>
+</nav>
+
+
+<!-- Form Messages -->
+{% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Редактировать информацию о студенте</h2>
+
+    <!-- Render Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <!-- Avatar Upload -->
+        <div class="mb-4">
+            <label for="id_avatar" class="form-label">{{ form.avatar.label }}</label>
+            {{ form.avatar }}
+            {{ form.avatar.errors }}
+            <small class="form-text text-muted">Загрузите аватар студента (необязательно).</small>
+        </div>
+
+        <!-- User Selection -->
+        <div class="mb-4">
+            <label for="id_user" class="form-label">{{ form.user.label }}</label>
+            {{ form.user }}
+            {{ form.user.errors }}
+            <small class="form-text text-muted">{{ form.user.help_text }}</small>
+        </div>
+
+        <!-- Name Field -->
+        <div class="mb-4">
+            <label for="id_name" class="form-label">{{ form.name.label }}</label>
+            {{ form.name }}
+            {{ form.name.errors }}
+        </div>
+
+        <!-- Enrollment and Graduation Years -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label for="id_enrollment_year" class="form-label">{{ form.enrollment_year.label }}</label>
+                {{ form.enrollment_year }}
+                {{ form.enrollment_year.errors }}
+                <small class="form-text text-muted">{{ form.enrollment_year.help_text }}</small>
+            </div>
+            <div class="col-md-6">
+                <label for="id_graduation_year" class="form-label">{{ form.graduation_year.label }}</label>
+                <div class="date-row">
+                    {{ form.graduation_year }}
+                </div>
+                {{ form.graduation_year.errors }}
+                <small class="form-text text-muted">{{ form.graduation_year.help_text }}</small>
+            </div>
+        </div>
+
+        <!-- Faculty Field -->
+        <div class="mb-4">
+            <label for="id_faculty" class="form-label">{{ form.faculty.label }}</label>
+            {{ form.faculty }}
+            {{ form.faculty.errors }}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Сохранить информацию</button>
+    </form>
+</div>
+
+{% endblock content %}

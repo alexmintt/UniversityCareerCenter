@@ -9,7 +9,14 @@ from weasyprint import HTML
 from students.models import Student, Faculty, Resume
 from students.resource import StudentResource
 
-
+class StudentInline(admin.TabularInline):
+    """
+Inline to manage students associated with a resume.
+    """
+    model = Student.resume.through
+    extra = 1
+    verbose_name = "Студент"
+    verbose_name_plural = "Студенты"
 class ResumeAdmin(admin.ModelAdmin):
     list_display = ("title", "created_at", "id", 'pdf_button', 'short_text_preview')
     search_fields = ("title",)
@@ -17,6 +24,9 @@ class ResumeAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
     list_display_links = ("title",)
     date_hierarchy = 'updated_at'
+    inlines = [StudentInline]
+
+
 
     @admin.display(description="Short Text Preview")
     def short_text_preview(self, obj):
@@ -83,6 +93,7 @@ admin.site.register(Faculty, FacultyAdmin)
 
 class StudentAdmin(ExportMixin, admin.ModelAdmin):
     resource_class = StudentResource
+    filter_horizontal = ['resume']
     list_display = (
         "name",
         "enrollment_year",

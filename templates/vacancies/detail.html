@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb p-3 bg-body-tertiary rounded-3">
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis fw-semibold text-decoration-none" href="{% url 'main' %}">Главная</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            {{ vacancy.title }}
+        </li>
+    </ol>
+</nav>
+
+
+
+<div class="container mt-5">
+    <!-- Vacancy Details -->
+    <h1 class="mb-3">{{ vacancy.title }}</h1>
+    <p class="text-muted">{{ vacancy.company.name }}</p>
+    <p><strong>Описание:</strong> {{ vacancy.description }}</p>
+    <p><strong>Требования:</strong> {{ vacancy.requirements }}</p>
+    <p><strong>Зарплата:</strong> {{ vacancy.salary|floatformat:0 }} ₽</p>
+
+    <!-- Apply Button -->
+    {% if user.is_authenticated and user.student %}
+        {% if applied %}
+            <p class="text-primary mt-3">Вы уже откликнулись на эту вакансию.</p>
+        {% else %}
+            <form method="post" class="mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Откликнуться</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <p class="text-danger mt-3">Вы должны быть авторизованы как студент, чтобы откликнуться на эту вакансию.</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Other Vacancies Section -->
+    <h3 class="mt-5">Другие вакансии компании {{ vacancy.company.name }}</h3>
+    {% if other_vacancies %}
+        <div class="list-group mt-3">
+            {% for other_vacancy in other_vacancies %}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="mb-1">{{ other_vacancy.title }}</h5>
+                        <p class="mb-0 text-muted">
+                            <small>Количество откликов: {{ other_vacancy.application_count }}</small>
+                        </p>
+                    </div>
+                    <a href="{% url 'vacancy-detail' other_vacancy.id %}" class="btn btn-sm btn-primary">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">Нет других вакансий от этой компании.</p>
+    {% endif %}
+</div>
+{% endblock content %}

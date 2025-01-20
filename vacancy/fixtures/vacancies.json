@@ -1,0 +1,122 @@
+[
+    {
+        "model": "vacancy.vacancy",
+        "pk": 1,
+        "fields": {
+            "title": "Backend-разработчик",
+            "company": 1,
+            "description": "Разработка и поддержка API.",
+            "requirements": "Опыт работы с Python/Django от 3 лет.",
+            "salary": "150000.00",
+            "created_at": "2025-01-01T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 2,
+        "fields": {
+            "title": "Frontend-разработчик",
+            "company": 2,
+            "description": "Создание современных веб-интерфейсов.",
+            "requirements": "Опыт работы с React.js от 2 лет.",
+            "salary": "140000.00",
+            "created_at": "2025-01-02T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 3,
+        "fields": {
+            "title": "Data Scientist",
+            "company": 1,
+            "description": "Анализ данных и создание моделей машинного обучения.",
+            "requirements": "Опыт работы в области Data Science от 3 лет.",
+            "salary": "160000.00",
+            "created_at": "2025-01-03T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 4,
+        "fields": {
+            "title": "DevOps-инженер",
+            "company": 3,
+            "description": "Управление инфраструктурой и CI/CD пайплайнами.",
+            "requirements": "Опыт работы с облачными платформами от 3 лет.",
+            "salary": "155000.00",
+            "created_at": "2025-01-04T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 5,
+        "fields": {
+            "title": "Мобильный разработчик",
+            "company": 4,
+            "description": "Разработка кроссплатформенных мобильных приложений.",
+            "requirements": "Опыт работы с Flutter от 2 лет.",
+            "salary": "130000.00",
+            "created_at": "2025-01-05T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 6,
+        "fields": {
+            "title": "Менеджер проектов",
+            "company": 1,
+            "description": "Управление проектами и командами.",
+            "requirements": "Опыт работы в управлении проектами от 5 лет.",
+            "salary": "180000.00",
+            "created_at": "2025-01-06T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 7,
+        "fields": {
+            "title": "QA-инженер",
+            "company": 2,
+            "description": "Тестирование и обеспечение качества.",
+            "requirements": "Опыт работы в тестировании от 2 лет.",
+            "salary": "120000.00",
+            "created_at": "2025-01-07T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 8,
+        "fields": {
+            "title": "HR-специалист",
+            "company": 3,
+            "description": "Подбор персонала и управление сотрудниками.",
+            "requirements": "Опыт работы в HR от 3 лет.",
+            "salary": "110000.00",
+            "created_at": "2025-01-08T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 9,
+        "fields": {
+            "title": "Cloud-инженер",
+            "company": 4,
+            "description": "Создание и поддержка облачной инфраструктуры.",
+            "requirements": "Опыт работы с AWS или Azure от 2 лет.",
+            "salary": "145000.00",
+            "created_at": "2025-01-09T12:00:00Z"
+        }
+    },
+    {
+        "model": "vacancy.vacancy",
+        "pk": 10,
+        "fields": {
+            "title": "Технический писатель",
+            "company": 1,
+            "description": "Создание технической документации и руководств.",
+            "requirements": "Опыт работы в техническом копирайтинге от 2 лет.",
+            "salary": "100000.00",
+            "created_at": "2025-01-10T12:00:00Z"
+        }
+    }
+]

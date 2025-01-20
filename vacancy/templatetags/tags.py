@@ -6,12 +6,12 @@ register = template.Library()
 
 @register.simple_tag
 def say_hello_world():
-    return "Hello World!"
+    return "Добро пожаловать"
 
 
 @register.simple_tag
 def show_name(username):
-    return f" {username}!"
+    return f" {username}"
 
 @register.simple_tag
 def get_size_of_vacancies():

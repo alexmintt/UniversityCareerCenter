@@ -15,6 +15,7 @@ class Application(models.Model):
             ("approved", "Approved"),
             ("rejected", "Rejected"),
         ],
+        default='pending'
     )
     created_at = models.DateTimeField(default=timezone.now())
     updated_at = models.DateTimeField(auto_now=True)
