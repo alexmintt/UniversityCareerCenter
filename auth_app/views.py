@@ -37,7 +37,7 @@ def index(request):
     if min_salary:
         vacancies = vacancies.filter(salary__gte=min_salary)
 
-
+    vacancies = vacancies.values_list('id', 'salary', 'company__name', 'title', 'description')
 
 
     # Передача данных в шаблон
